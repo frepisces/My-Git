@@ -28,6 +28,8 @@ namespace AccountMvcApplication.Tests.Controllers
             // Act
             ViewResult result = controller.Index() as ViewResult;
 
+            //assert
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
         }
 
         [TestMethod]
@@ -58,8 +60,10 @@ namespace AccountMvcApplication.Tests.Controllers
             // Arrange
             HomeController controller = new HomeController(_webApiHelper.Object);
 
-            ViewResult result = controller.EditAccount(myTestValue1, myTestValue2) as ViewResult;
+            RedirectToRouteResult result = controller.EditAccount(myTestValue1, myTestValue2) as RedirectToRouteResult;
 
+            //assert
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
         }
 
         [TestMethod]
@@ -75,7 +79,10 @@ namespace AccountMvcApplication.Tests.Controllers
              // Arrange
              HomeController controller = new HomeController(_webApiHelper.Object);
 
-             ViewResult result = controller.DeleteAccount(myTestValue) as ViewResult;
+             RedirectToRouteResult result = controller.DeleteAccount(myTestValue) as RedirectToRouteResult;
+
+             //assert
+             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
         } 
 
         [TestMethod]
@@ -91,8 +98,11 @@ namespace AccountMvcApplication.Tests.Controllers
              _webApiHelper.Setup(a => a.getData(It.IsAny<string>(), It.IsAny<string>())).Returns(jsonResponse);
              
              // Act
-             ViewResult result = controller.ShowAccountDetail(myTestValue) as ViewResult; ;
+             PartialViewResult result = controller.ShowAccountDetail(myTestValue) as PartialViewResult;
 
+             //assert
+             Assert.AreEqual("_LoadAccount", result.ViewName);
+             Assert.IsInstanceOfType(result.ViewData.Model, typeof(EditAccountModel));
         }
 
         [TestMethod]
